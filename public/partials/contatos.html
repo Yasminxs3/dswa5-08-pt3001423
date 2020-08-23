@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-4">
+                <img src="Logo.jpg" alt=" " />
+            </div>
+            <div class="col-8">
+                <h1 class="text-center">Bem vindo ao IFSP</h1>
+                <h4 class="text-center">
+                    Lista de Contatos
+                </h4>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark justify-content-between">
+        
+        <ul class="nav">
+        <li class="nav-item active">
+            <a class="text-sm-center nav-link text-warning active" href="/#!/contatos">Contatos</a>
+        </li>
+        <li class="nav-item">
+            <a class="text-sm-center nav-link text-white" href="/#!/cursos">Cursos</a>
+        </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2"  type="search" ng-model="filtro" placeholder="Digite um nome" aria-label="Search">
+        </form>
+    
+    </nav>
+    
+    <button  class="btn btn-primary mt-4" ng-click="incrementa()">Novo</button>
+    <p> Contatos Cadastrados: {{ total }}</p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Email
+                </th>
+                <th class="text-center">
+                    Ação
+                </th>
+            </tr>
+            <tr ng-repeat="contato in contatos | filter:filtro">
+                <td>
+                    <a href="">
+                        {{ contato.nome }}
+                    </a>
+                </td>
+                <td>
+                    {{ contato.email }}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-warning">
+                        Remover
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
