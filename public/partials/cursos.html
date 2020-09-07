@@ -12,6 +12,8 @@
             </div>
         </div>
     </div>
+    <p ng-show="mensagem.texto"> {{ mensagem.texto }} </p>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-dark justify-content-between">
         
         <ul class="nav">
@@ -29,7 +31,9 @@
     </nav>
     
     <button  class="btn btn-primary mt-4" ng-click="incrementa()">Novo</button>
-    <p> Cursos Cadastrados: {{ cursos.length }}</p>
+    <p ng-show="cursos.length"> Cursos Cadastrados: {{ cursos.length }}</p>
+    <p class="text-info" ng-hide="cursos.length">Não há cursos cadastrados</p>
+
     <div class="table-responsive">
         <table class="table table-hover">
             <tr>
@@ -45,7 +49,7 @@
             </tr>
             <tr ng-repeat="curso in cursos | filter:filtro">
                 <td>
-                    <a href="">
+                    <a href='#!/curso/{{curso._id}}'>
                         {{ curso.nome }}
                     </a>
                 </td>
@@ -53,7 +57,7 @@
                     {{ curso.coordenador }}
                 </td>
                 <td class="text-center">
-                    <button class="btn btn-warning">
+                    <button ng-click='remove(curso)' class="btn btn-warning">
                         Remover
                     </button>
                 </td>
@@ -61,3 +65,4 @@
         </table>
     </div>
 </div>
+

@@ -1,18 +1,15 @@
 angular.module('ifsp').controller('CursosController',
 	function($resource, $scope) {
-		$scope.total = 0;
+		$scope.contatos = [];
+        $scope.filtro = '';
+		$scope.mensagem = { texto: '' };
+
+		var Curso = $resource('/cursos/:id');
+
 		$scope.incrementa = function() {
 			$scope.total++;
 		};
 
-		$scope.cursos  = [
-            {_id: 1, nome: 'Analise e desenvolvimento de sistemas', coordenador: 'João Silva'},
-            {_id: 2, nome: 'Arquitetura', coordenador: 'Maria'},
-        ];
-
-		$scope.filtro = '';
-		
-		var Curso = $resource('/cursos');
 		function buscaCursos() {
 			Curso.query(
 				function(cursos) {
@@ -25,4 +22,14 @@ angular.module('ifsp').controller('CursosController',
 			)
 		}
 		buscaCursos();
+		$scope.remove = function(curso) {
+            console.log(curso);
+            Curso.delete({ id: curso._id },
+                buscaCursos,
+                function(erro) {
+                    console.log("Não foi possível remover o curso");
+                    console.log(erro);
+                    $scope.mensagem = { texto: "Não foi possível remover o curso" };
+                });
+        };
 });

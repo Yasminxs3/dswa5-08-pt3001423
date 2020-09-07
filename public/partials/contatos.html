@@ -12,6 +12,7 @@
             </div>
         </div>
     </div>
+    <p ng-show="mensagem.texto"> {{ mensagem.texto }} </p>
     
     <nav class="navbar navbar-expand-lg navbar-light bg-dark justify-content-between">
         
@@ -30,7 +31,8 @@
     </nav>
     
     <button  class="btn btn-primary mt-4" ng-click="incrementa()">Novo</button>
-    <p> Contatos Cadastrados: {{ contatos.length }}</p>
+    <p ng-show="contatos.length"> Contatos Cadastrados: {{ contatos.length }}</p>
+    <p class="text-info" ng-hide="contatos.length">Não há contatos cadastrados</p>
     <div class="table-responsive">
         <table class="table table-hover">
             <tr>
@@ -44,20 +46,14 @@
                     Ação
                 </th>
             </tr>
-            <tr ng-repeat="contato in contatos | filter:filtro">
+            <tr ng-repeat="contato in contatos | filter: filtro">
                 <td>
-                    <a href="">
-                        {{ contato.nome }}
+                    <a href='#!/contato/{{contato._id}}'>
+                        {{contato.nome}}
                     </a>
                 </td>
-                <td>
-                    {{ contato.email }}
-                </td>
-                <td class="text-center">
-                    <button class="btn btn-warning">
-                        Remover
-                    </button>
-                </td>
+                <td>{{contato.email}}</td>
+                <td class="text-center"><button ng-click='remove(contato)' class="btn btn-warning">Remover</button></td>
             </tr>
         </table>
     </div>
