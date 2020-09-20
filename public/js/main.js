@@ -9,12 +9,22 @@ angular.module('ifsp', ['ngRoute', 'ngResource']).config(function($routeProvider
         controller: 'ContatoController'
     });
 
+    $routeProvider.when('/contato', {
+        templateUrl: 'partials/contato.html', 
+        controller: 'ContatoController'
+    });
+
     $routeProvider.when('/cursos', {
         templateUrl: 'partials/cursos.html',
         controller: 'CursosController'
     });
 
     $routeProvider.when('/curso/:cursoId', {
+        templateUrl: 'partials/curso.html', 
+        controller: 'CursoController'
+    });
+
+    $routeProvider.when('/curso', {
         templateUrl: 'partials/curso.html', 
         controller: 'CursoController'
     });
