@@ -5,8 +5,8 @@ var load = require('express-load');
 module.exports = function(){
 	var app = express();
 	//Mudança no parâmetro PORT para publicar no Heroku
-	// app.set('port', process.env.PORT);
-	app.set('port', 8000);
+	app.set('port', process.env.PORT);
+	// app.set('port', 8000);
 	//Middleware
 	app.use(express.static('./public'));
 	app.use(bodyParser.urlencoded({extended: true}));
