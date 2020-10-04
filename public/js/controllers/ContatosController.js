@@ -1,13 +1,9 @@
 angular.module('ifsp').controller('ContatosController',
-    function($resource, $scope) {
+    function(Contato, $scope) {
         $scope.contatos = [];
         $scope.filtro = '';
         $scope.mensagem = { texto: '' };
-        var Contato = $resource('/contatos/:id');
-
-        $scope.incrementa = function() {
-			$scope.total++;
-		};
+        //var Contato = $resource('/contatos/:id');
 
         function buscaContatos() {
             Contato.query(

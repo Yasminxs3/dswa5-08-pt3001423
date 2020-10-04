@@ -1,40 +1,83 @@
-var ID_CURSO_INC = 3;
+var ID_CONTATO_INC = 3;
 
-var cursos = [
-    {_id: 1, nome: 'Analise e desenvolvimento de sistemas', coordenador: 'João Silva'},
-    {_id: 2, nome: 'Arquitetura', coordenador: 'Maria'},
-];
+// var cursos = [
+//     {_id: 1, nome: 'Yasmin', email: 'teste@teste.com'},
+//     {_id: 2, nome: 'user 2', email: 'user2@gmail.com'},
+// ];
 
-module.exports = function() {
+module.exports = function(app) {
+    var Curso = app.models.curso;
     var controller = {};
     controller.listaCursos = function(req, res) {
-        res.json(cursos);
+        Curso.find().exec().then(
+            function(cursos) {
+                res.json(cursos);
+            },
+            function(erro) {
+                console.log(erro);
+                res.status(500).json(erro);
+            }
+        );
+        // res.json(cursos);
     };
     controller.obtemCurso = function(req, res) {
-        var idCurso = req.params.id;
-        var curso = cursos.filter(function(curso){
-            return curso._id == idCurso;
-        })[0];
-        curso? res.json(curso) : res.status(404).send('curso não encontrado');
-    }
+        // console.log('Selecionou o curso: ' + req.params.id);
+        var _id = req.params.id;
+        Curso.findById(_id).exec().then(
+            function(curso) {
+                if(!curso) throw new Error("curso não encontrado");
+                res.json(curso);
+            },
+            function(erro) {
+                console.log(erro);
+                res.status(404).json(erro)
+            }
+        );
+        // var curso = cursos.filter(function(curso) {
+        //     return curso._id == idContato;
+        // })[0];
+
+        // curso ? res.json(curso) : res.status(404).send('Curso não encontrado!');
+    };
     controller.removeCurso = function(req, res) {
-        var idCurso = req.params.id;
-        cursos = cursos.filter(function(curso) {
-            return curso._id != idCurso;
-        });
-        res.send(204).end();
+        var _id = req.params.id;
+        Curso.deleteOne({"_id": _id}).exec().then(
+            function() {
+               res.end();
+            },
+            function(erro) {
+                res.status(404).json(erro)
+            }
+        );
     };
 
-    
     controller.salvaCurso = function(req, res) {
-        var curso = req.body;
-        curso = curso._id ? atualiza(curso) : adiciona(curso);
-
-        res.json(curso);
+        var _id = req.body._id;
+        if(_id) {
+            Curso.findByIdAndUpdate(_id, req.body).exec().then(
+                function(curso) {
+                    res.json(curso);
+                },
+                function(erro) {
+                    console.log(erro);
+                    res.status(500).json(erro)
+                }
+            );
+        } else {
+            Curso.create(req.body).then(
+                function(curso) {
+                    res.status(201).json(curso);
+                },
+                function(erro) {
+                    console.log(erro);
+                    res.status(500).json(erro)
+                }
+            );
+        }
     };
 
     function adiciona(cursoNovo) {
-        cursoNovo._id = ++ID_CURSO_INC;
+        cursoNovo._id = ++ID_CONTATO_INC;
         cursos.push(cursoNovo);
         return cursoNovo;
     };
@@ -49,5 +92,4 @@ module.exports = function() {
         return cursoAlterar;
     };
     return controller;
-}
-
+};
